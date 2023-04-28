@@ -16,18 +16,29 @@ class ProductManager {
     });
     idMax++;
     if (this.product.find((item) => item.code == code)) {
-      console.log(`El códido ${code} ya existe`);
+      return console.log(`El códido ${code} ya existe`);
     } else {
-      let productCreate = {
-        id: idMax,
-        title,
-        description,
-        price,
-        thumbnail,
-        code,
-        stock,
-      };
-      this.product.push(productCreate);
+      if (
+        stock < 0 ||
+        price < 0 ||
+        code === `` ||
+        title === "" ||
+        description === "" ||
+        thumbnail === ""
+      ) {
+        return console.log("No se pueden ingresar datos en blanco");
+      } else {
+        let productCreate = {
+          id: idMax,
+          title,
+          description,
+          price,
+          thumbnail,
+          code,
+          stock,
+        };
+        this.product.push(productCreate);
+      }
     }
   }
 
@@ -58,15 +69,15 @@ Listado de productos vacio
 Agregamos los productos
 --------------------*/
 
-product.addProduct("Manzana", "Manzana Roja", 480, "imagen1", "FRU001", 20);
-product.addProduct("Banana", "Banana Ecuador", 380, "imagen2", "FRU002", 40);
-product.addProduct("Pera", "Pera Williams", 380, "imagen3", "FRU003", 50);
-product.addProduct("Kiwi", "Kiwi Chile", 380, "imagen4", "FRU004", 10);
-
+// product.addProduct("Manzana", "Manzana Roja", 480, "imagen1", "FRU001", 20);
+// product.addProduct("Banana", "Banana Ecuador", 380, "imagen2", "FRU002", 40);
+// product.addProduct("Pera", "Pera Williams", 380, "imagen3", "FRU003", 50);
+// product.addProduct("Kiwi", "Kiwi Chile", 380, "imagen4", "FRU004", 10);
+//product.addProduct("", "Kiwi Chile", 380, "imagen4", "FRU004", 10);
 /* -----------------
 Agregamos un producto con código duplicado
 --------------------*/
-//product.addProduct("Durazno", "Durazno Blanco", 680, "imagen5", "FRU002", 60);
+// product.addProduct("Durazno", "Durazno Blanco", 680, "imagen5", "FRU002", 60);
 
 /* -----------------
 Mostramos los productos
@@ -75,11 +86,11 @@ console.log("Listado de Productos");
 console.log("----------------------");
 console.log(product.getProducts());
 console.log("----------------------");
-/* -----------------
-Buscamos un producto por ID que existe
---------------------*/
-console.log(`El producto con código 2 es:`);
-console.log(product.getProductById(2));
+// /* -----------------
+// Buscamos un producto por ID que existe
+// --------------------*/
+// console.log(`El producto con código 2 es:`);
+// console.log(product.getProductById(2));
 
 /* -----------------
 Buscamos un producto por ID que NO existe
