@@ -24,18 +24,31 @@ class ProductManager {
     if (this.products.find((item) => item.code == code)) {
       console.log(`El códido ${code} ya existe`);
     } else {
-      let productCreate = {
-        id: idMax,
-        title,
-        description,
-        price,
-        thumbnail,
-        code,
-        stock,
-      };
-      this.products.push(productCreate);
-      const productsString = JSON.stringify(this.products);
-      fs.writeFileSync("./files/products.json", productsString);
+      if (
+        stock < 0 ||
+        price < 0 ||
+        code === `` ||
+        title === "" ||
+        description === "" ||
+        thumbnail === ""
+      ) {
+        return console.log(
+          "No se pueden ingresar datos en blanco o números negativos"
+        );
+      } else {
+        let productCreate = {
+          id: idMax,
+          title,
+          description,
+          price,
+          thumbnail,
+          code,
+          stock,
+        };
+        this.products.push(productCreate);
+        const productsString = JSON.stringify(this.products);
+        fs.writeFileSync("./files/products.json", productsString);
+      }
     }
   }
 
@@ -101,6 +114,9 @@ const product = new ProductManager("./files/products.json");
 // product.addProduct("Banana", "Banana Ecuador", 380, "imagen2", "FRU002", 40);
 // product.addProduct("Pera", "Pera Williams", 380, "imagen3", "FRU003", 50);
 // product.addProduct("Kiwi", "Kiwi Chile", 380, "imagen4", "FRU004", 10);
+
+//product.addProduct("", "Kiwi Chile", -380, "imagen4", "FRU0011", 10);
+//product.addProduct("Frutilla", "Frutilla Coronda", 380, "imagen4", "FRU001", 10);
 
 console.log(product.getProducts());
 
