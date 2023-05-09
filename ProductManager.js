@@ -58,12 +58,12 @@ class ProductManager {
     for (let index = 0; index < this.products.length; index++) {
       if (this.products[index].id == id) {
         return this.products[index];
-        prodexist = 1;
       }
     }
     if (prodexist === 0) {
       let message = `El producto con ID: ${id} no existe`;
-      return message;
+      let exists = 0;
+      return prodexist;
     }
   }
 

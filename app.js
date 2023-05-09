@@ -1,6 +1,6 @@
 //const express = require("express");
 import express from "express";
-import { product } from "./ProductManager.js";
+import { ProductManager } from "./ProductManager.js";
 //Importamos el ProductManage
 
 //const productManager = require("./ProductManager.js");
@@ -13,37 +13,21 @@ app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);
 });
 
-//const products = new ProductManager();
-console.log(product);
-console.log(typeof product);
-console.log("----------------");
-console.log(product[4]);
+const productManager = new ProductManager();
+const products = productManager.getProducts();
+
 //Chequeo Servidor corriendo en puerto 8080
 app.get("/", (req, res) => {
   res.json({
     message: `Hola a todos ahora estamos en el Desafío 3 en el puerto ${PORT}`,
-    Payload: product,
+    Products: products,
   });
 });
 
 //Si me enviaron por query el ?limit = algo, entonces solo envio esa cantidad, de lo contrario todo
 app.get("/products/", (req, res) => {
   const { limit } = req.query;
-  res.send(limit ? product.slice(0, limit) : product);
-
-  // if query {
-  //   res.json({
-  //     //si no aclararon nada en el query mando todos los productos
-  //     products,
-  //   });
-  // } else {
-
-  // }
-  // //if  me enviaron por query el ?limit = algo, entonces solo envio esa cantidad
-
-  // res.json({
-  //   /*envio todos los productos hasta el límite que me piden*/
-  // });
+  res.send(limit ? products.slice(0, limit) : products);
 });
 
 //Muestro solo el Producto por ID
@@ -51,11 +35,22 @@ app.get("/products/:pid", (req, res) => {
   //dentro de req.params vienen lo que mando por la url
   const id = req.params.pid;
 
-  res.send(`Buscamos el producto ${id}`);
+  //res.send(`Buscamos el producto ${id}`);
   console.log(`Buscamos el producto ${id}`);
-  console.log(product);
-  //const productoEncontrado = products.find((prod) => prod.id == id);
-  const productoEncontrado = product.getProductById(id);
-  console.log(productoEncontrado);
-  res.json(productoEncontrado);
+
+  const productoEncontrado = productManager.getProductById(id);
+
+  if (productoEncontrado !== 0) {
+    console.log(productoEncontrado);
+    res.json({
+      Mensaje: `El producto con ID: ${id} es`,
+      Producto: productoEncontrado,
+    });
+  } else {
+    console.log(`El producto con ID: ${id} no se encuentra`);
+    res.json({
+      Error: "error",
+      Mensaje: `El producto con ID: ${id} no se encuentra`,
+    });
+  }
 });
